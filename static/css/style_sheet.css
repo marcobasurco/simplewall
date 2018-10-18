@@ -1,0 +1,20 @@
+.wrapper{
+    width: 1000px;
+    margin: auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.register{
+    width: 400px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+.login{
+    width:  400px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 80px;
+}

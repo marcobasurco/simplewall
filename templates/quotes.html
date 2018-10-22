@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+        crossorigin="anonymous">
+    <title>Quotes</title>
+    <style>
+        .padding-down{
+    margin-bottom: 20px;
+    padding: 6px;
+    border-style: solid;
+}
+</style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand">Welcome Marco!</a>
+            <form class="form-inline" action="/logout">
+                <a class="navbar-brand"<a href="/edit"><u>Edit My Account</u></a>
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log off</button>
+            </form>
+        </nav><br>
+        <div class="row">
+            <div class="col-sm">
+                <h3>Quotes</h3>
+                <div class="padding-down">
+                    <p style="text-align:justify">Eleanor Roosevelt: "Great minds discuss ideas; average minds discuss
+                        events; small minds discuss people."</p>
+                    Posted by <a href="/user_quotes"><u>Marco Basurco</u></a><br>
+                    93 people like this <input type="submit" class="btn btn-primary" value="Like!">
+                </div>
+                <div class="padding-down">
+                    <p style="text-align:justify">Bob Marley: "One good thing about music, when it hits you, you feel
+                        no pain."</p>
+                    <p>Posted by Sally Sallers</p>
+                    15 people like this <input type="submit" class="btn btn-primary" value="Like!">
+                </div>
+                <div class="padding-down">
+                    <p style="text-align:justify">Jim Morrison: "A friend is someone who gives you total freedom to be
+                        yourself."</p>
+                    <p>Posted by Hulk Hogan</p>
+                    40 people like this <input type="submit" class="btn btn-primary" value="Like!"><br>
+                    Delete <a href="/Delete"><i class="fas fa-trash-alt"></i></a>
+                </div>
+            </div>
+            <div class="col-sm">
+                <h3>Add a Quote!</h3>
+                <input type="text" class="form-control" name="author" value="" placeholder="Enter Author"><br>
+                <input type="text" class="form-control" name="author" value="" placeholder="Enter Quote"><br>
+                <p style="text-align:right"><input type="submit" class="btn btn-success" value="Submit"></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -85,6 +85,22 @@
             <div class="login">
                 <h2>Login here!</h2>
                 <form action="/login" method="POST">
+                    <div class="form-group">
+                        <div>
+                            
+                        
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == "email_login" %}
+                                    <span class="text-danger">{{ message }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    </div>
+                        Email:<br><input type="text" name="email"><br>
+                    </div>
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                             {% for category, message in messages %}
@@ -94,9 +110,6 @@
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
-                    <div class="form-group">
-                        Email:<br><input type="text" name="email"><br>
-                    </div>
                     <div class="form-group">
                         Password:<br><input type="password" name="password"><br>
                     </div>

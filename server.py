@@ -35,7 +35,7 @@ def register():
         flash('Last Name must have minimum 2 characters', 'last_name')
 
    # I am checking email address if is already taken
-    mysql = connect('domainDirectory')
+    mysql = connect('quotes_wall')
     query = "SELECT * FROM users WHERE email = %(email)s"
     data = {'email':   request.form['email']}
     email_check = mysql.query_db(query, data)
@@ -67,7 +67,7 @@ def register():
 
     pw_hash = bcrypt.generate_password_hash(request.form['password'])
 
-    mysql = connect('domainDirectory')
+    mysql = connect('quotes_wall')
     query = "INSERT INTO users (first_name, last_name, email, password, created_at, updated_at) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, NOW(), NOW());"
     data = {
         'first_name':   request.form['first_name'],
@@ -88,12 +88,19 @@ def register():
 def login():
     session.clear()
 
-    mysql = connect('domainDirectory')
+    mysql = connect('quotes_wall')
     query = "SELECT * FROM users WHERE email = %(email)s;"
     data = {
         'email':   request.form['email'],
     }
     results = mysql.query_db(query, data)
+
+    if len(request.form['email']) == 0:
+        flash('Email address is required', 'email_login')
+    elif not EMAIL_REGEX.match(request.form['email']):
+        flash('Invalid email', 'email_login')
+    if len(request.form['password']) == 0:
+        flash('Password is required to login', 'password_required')
 
     if results:
 
@@ -101,7 +108,7 @@ def login():
             session['id'] = results[0]['id']
             session['first_name'] = results[0]['first_name']
             session['last_name'] = results[0]['last_name']
-            return redirect('/wall')
+            return redirect('/quotes')
         else:
             flash('You could not be logged in', 'failed_login')
             return redirect("/")
@@ -116,57 +123,59 @@ def logout():
     session.clear()
     return redirect("/")
 
+    
+
+@app.route("/quotes")
+def quotes():
+    if 'id' not in session:
+        session.clear()
+        return redirect('/')
 
 
-@app.route("/wall")
-def success():
+ 
+    return render_template('quotes.html')
+
+
+@app.route("/user_quotes")
+def user_quotes():
     if 'id' not in session:
         session.clear()
         return redirect('/')
     print("session[id]: ", session['id'])
 
-    connector = connect('domainDirectory')
+    return render_template('user_quotes.html')
 
-    query = "SELECT users.first_name AS sender_name, messages.id, messages.message AS message, messages.created_at AS created_at FROM users LEFT JOIN messages ON users.id = messages.sender_id WHERE messages.receiver_id = %(UserID)s;"
 
-    data = {'UserID':   session['id']}
+@app.route("/edit")
+def edit():
+    if 'id' not in session:
+        session.clear()
+        return redirect('/')
+    print("session[id]: ", session['id'])
 
-    messages = connector.query_db(query, data)
 
-    connector = connect('domainDirectory')
-    query = "SELECT users.first_name, users.id FROM users WHERE id <> %(UserID)s;"
-    data = {'UserID'    :   session['id']}
-    users = connector.query_db(query, data)
 
-    return render_template('wall.html', user = session['first_name'], users = users, messages = messages)
+
+    return render_template('edit.html')
+
+
+
 
 
 @app.route("/send/<id>", methods=['POST'])
 def send(id):
-    print("id: ", id)
-    print("session(id): ", session['id'])
-    connector = connect('domainDirectory')
-    data = {
-        'message': request.form['text_message'],
-        'sender_id': session['id'],
-        'receiver_id': id
-    }
-    query = "INSERT INTO messages (message, sender_id, receiver_id, created_at, updated_at) VALUES (%(message)s, %(sender_id)s, %(receiver_id)s, NOW(), NOW());"
-    connector.query_db(query, data)
+  
+    return redirect('/quotes')
 
-    return redirect('/wall')
 
-@app.route('/delete/<id>')
+
+
+
+
+@app.route('/delete')
 def delete(id):
 
-    print("IM HEERREE")
-
-    connector = connect('domainDirectory')
-    data = {'id': id}
-    query = 'DELETE FROM messages WHERE messages.id = %(id)s'
-    connector.query_db(query, data)
-
-    return redirect('/wall')
+    return redirect('/quotes')
 
 
 
